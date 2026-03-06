@@ -1,43 +1,35 @@
 // -----------------------------
-// AIPune Feed - script.js
+// AIPune Feed - Verified News
+// Using NewsAPI.org
 // -----------------------------
 
-// Your API key (replace with your own if needed)
-const apiKey = "add20b6368414bf3be252076d7d1b0b2";
-
-// RSS feed URL (Times of India Pune)
-const rssUrl = "https://timesofindia.indiatimes.com/rssfeeds/1221656.cms";
-
-// Container in HTML
+const apiKey = "YOUR_NEWSAPI_KEY_HERE"; // replace with your key
 const newsContainer = document.querySelector("#news-container");
 
-// Function to fetch verified news
 async function loadNews() {
-    // Show loading message
     newsContainer.innerHTML = `<p>Loading latest news...</p>`;
 
     try {
-        // Fetch news from RSS2JSON API
         const response = await fetch(
-            `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssUrl)}&api_key=${apiKey}`
+            `https://newsapi.org/v2/top-headlines?country=in&category=general&q=Pune&pageSize=5&apiKey=${apiKey}`
         );
 
         if (!response.ok) throw new Error("Network response was not ok");
 
         const data = await response.json();
 
-        if (!data.items || data.items.length === 0) {
+        if (!data.articles || data.articles.length === 0) {
             newsContainer.innerHTML = `<p>No news available right now.</p>`;
             return;
         }
 
         // Build news cards
-        const newsHtml = data.items.slice(0, 5).map(item => {
+        const newsHtml = data.articles.map(article => {
             return `
                 <div class="news-card">
-                    <h3><a href="${item.link}" target="_blank">${item.title}</a></h3>
-                    <p>${item.pubDate ? new Date(item.pubDate).toLocaleString() : ""}</p>
-                    <p>${item.description ? item.description.slice(0, 120) + "..." : ""}</p>
+                    <h3><a href="${article.url}" target="_blank">${article.title}</a></h3>
+                    <p>${article.publishedAt ? new Date(article.publishedAt).toLocaleString() : ""}</p>
+                    <p>${article.description ? article.description.slice(0, 120) + "..." : ""}</p>
                 </div>
             `;
         }).join("");
@@ -50,16 +42,4 @@ async function loadNews() {
     }
 }
 
-// Call loadNews when page loads
 window.addEventListener("DOMContentLoaded", loadNews);
-
-// -----------------------------
-// Placeholder: Hot Trending / Unverified News
-// -----------------------------
-const trendingContainer = document.querySelector(".trending-news");
-if (trendingContainer) {
-    trendingContainer.innerHTML = `
-        <p>Hot trending topics will appear here soon.</p>
-        <p>⚠️ Disclaimer: These are unverified topics.</p>
-    `;
-}
