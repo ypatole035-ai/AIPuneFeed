@@ -3,7 +3,6 @@
    Light Theme / Mobile Friendly
 ----------------------------- */
 
-/* BODY & DEFAULTS */
 body {
     font-family: 'Arial', sans-serif;
     background-color: #f9f9f9;
@@ -12,7 +11,6 @@ body {
     padding: 0;
 }
 
-/* HEADER */
 header {
     text-align: center;
     padding: 1rem;
@@ -25,8 +23,8 @@ header {
 }
 
 header img {
-    width: 200px;   /* desktop size */
-    max-width: 90%; /* responsive */
+    width: 200px;
+    max-width: 90%;
     height: auto;
     object-fit: contain;
     margin-bottom: 0.5rem;
@@ -34,7 +32,7 @@ header img {
 
 @media (max-width: 600px) {
     header img {
-        width: 150px; /* mobile size */
+        width: 150px;
     }
 }
 
@@ -49,7 +47,6 @@ header p {
     color: #555;
 }
 
-/* BREAKING NEWS BANNER */
 #breaking-banner {
     background-color: #fff3f3;
     padding: 0.8rem;
@@ -59,7 +56,6 @@ header p {
     border-bottom: 1px solid #ddd;
 }
 
-/* SECTIONS */
 section {
     padding: 1rem 2rem;
 }
@@ -70,7 +66,6 @@ h2 {
     margin-bottom: 1rem;
 }
 
-/* NEWS CARDS */
 .news-card {
     background-color: #fff;
     border: 1px solid #ddd;
@@ -100,14 +95,12 @@ h2 {
     color: #555;
 }
 
-/* TRENDING / UNVERIFIED NEWS */
 .trending-news p {
     font-size: 0.9rem;
     color: #555;
     margin: 0.5rem 0;
 }
 
-/* FOOTER */
 footer {
     text-align: center;
     padding: 1rem;
@@ -117,7 +110,6 @@ footer {
     color: #555;
 }
 
-/* MOBILE RESPONSIVE */
 @media (max-width: 600px) {
     section {
         padding: 1rem;
