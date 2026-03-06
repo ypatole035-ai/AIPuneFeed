@@ -1,7 +1,7 @@
 /* -----------------------------
-   AIPune Feed - style.css
-   Light Theme / Mobile Friendly
------------------------------ */
+    AIPune Feed - style.css
+    Light Theme / Mobile Friendly
+ ----------------------------- */
 
 /* BODY & DEFAULTS */
 body {
@@ -25,9 +25,17 @@ header {
 }
 
 header img {
-    width: 120px; /* Adjust logo size */
+    width: 200px;   /* desktop size */
+    max-width: 90%; /* responsive */
     height: auto;
     object-fit: contain;
+    margin-bottom: 0.5rem;
+}
+
+@media (max-width: 600px) {
+    header img {
+        width: 150px; /* mobile size */
+    }
 }
 
 header h1 {
@@ -112,14 +120,3 @@ footer {
 /* MOBILE RESPONSIVE */
 @media (max-width: 600px) {
     section {
-        padding: 1rem;
-    }
-
-    header h1 {
-        font-size: 1.5rem;
-    }
-
-    header img {
-        width: 100px;
-    }
-}
