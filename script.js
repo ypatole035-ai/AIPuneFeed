@@ -1,8 +1,3 @@
-// -----------------------------
-// AIPune Feed - Verified News
-// Using NewsAPI.org
-// -----------------------------
-
 const apiKey = "add20b6368414bf3be252076d7d1b0b2"; // your NewsAPI key
 const newsContainer = document.querySelector("#news-container");
 
@@ -23,16 +18,13 @@ async function loadNews() {
             return;
         }
 
-        // Build news cards
-        const newsHtml = data.articles.map(article => {
-            return `
-                <div class="news-card">
-                    <h3><a href="${article.url}" target="_blank">${article.title}</a></h3>
-                    <p>${article.publishedAt ? new Date(article.publishedAt).toLocaleString() : ""}</p>
-                    <p>${article.description ? article.description.slice(0, 120) + "..." : ""}</p>
-                </div>
-            `;
-        }).join("");
+        const newsHtml = data.articles.map(article => `
+            <div class="news-card">
+                <h3><a href="${article.url}" target="_blank">${article.title}</a></h3>
+                <p>${article.publishedAt ? new Date(article.publishedAt).toLocaleString() : ""}</p>
+                <p>${article.description ? article.description.slice(0, 120) + "..." : ""}</p>
+            </div>
+        `).join("");
 
         newsContainer.innerHTML = newsHtml;
 
