@@ -1,7 +1,7 @@
 /* -----------------------------
-    AIPune Feed - style.css
-    Light Theme / Mobile Friendly
- ----------------------------- */
+   AIPune Feed - style.css
+   Light Theme / Mobile Friendly
+----------------------------- */
 
 /* BODY & DEFAULTS */
 body {
@@ -120,3 +120,10 @@ footer {
 /* MOBILE RESPONSIVE */
 @media (max-width: 600px) {
     section {
+        padding: 1rem;
+    }
+
+    header h1 {
+        font-size: 1.5rem;
+    }
+}
