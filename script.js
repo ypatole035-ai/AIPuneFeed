@@ -3,7 +3,7 @@
 // Using NewsAPI.org
 // -----------------------------
 
-const apiKey = "YOUR_NEWSAPI_KEY_HERE"; // replace with your key
+const apiKey = add20b6368414bf3be252076d7d1b0b2
 const newsContainer = document.querySelector("#news-container");
 
 async function loadNews() {
