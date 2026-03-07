@@ -1,37 +1,34 @@
 ///////////////////////////////
-// AIPune Feed - Live Verified News + Trending
+// AIPune Feed - Verified News with GNews API + Trending
 ///////////////////////////////
 
 const newsContainer = document.querySelector("#news-container");
 const trendingContainer = document.querySelector("#trending-container");
 
-// ----------------------
-// Sample fallback news
-// ----------------------
+// Fallback news
 const fallbackNews = [
     { title: "Pune Weather Today", url: "#", publishedAt: new Date(), description: "Sunny skies and warm temperatures in Pune today." },
     { title: "Traffic Update", url: "#", publishedAt: new Date(), description: "Heavy traffic on FC Road and JM Road, commuters advised to take alternate routes." },
     { title: "Local Event", url: "#", publishedAt: new Date(), description: "Art exhibition opens at Pune Central Park from today." }
 ];
 
+// Sample trending topics
 const sampleTrending = [
     { title: "New Cafe Opens in Pune", url: "#" },
     { title: "Traffic Diversion on FC Road", url: "#" },
     { title: "Local Startup Raises Funding", url: "#" }
 ];
 
-// ----------------------
-// Load Verified News
-// ----------------------
+// Load Verified News from GNews
 async function loadVerifiedNews() {
     newsContainer.innerHTML = `<p>Loading latest news...</p>`;
 
-    const apiKey = "add20b6368414bf3be252076d7d1b0b2";
-    const apiUrl = `https://newsapi.org/v2/top-headlines?q=Pune&country=in&pageSize=5&apiKey=${apiKey}`;
+    const apiKey = "ed32aa16493784eaf9102ccf02d40243"; // <-- your GNews API key
+    const apiUrl = `https://gnews.io/api/v4/search?q=Pune&lang=en&country=in&max=5&token=${apiKey}`;
 
     try {
         const response = await fetch(apiUrl);
-        if (!response.ok) throw new Error("API fetch failed");
+        if (!response.ok) throw new Error("GNews API fetch failed");
 
         const data = await response.json();
 
@@ -48,8 +45,7 @@ async function loadVerifiedNews() {
         newsContainer.innerHTML = newsHtml;
 
     } catch (error) {
-        console.warn("Live API failed, using fallback news:", error);
-        // fallback
+        console.warn("GNews API failed, using fallback news:", error);
         const fallbackHtml = fallbackNews.map(article => `
             <div class="news-card">
                 <h3><a href="${article.url}" target="_blank">${article.title}</a></h3>
@@ -61,9 +57,7 @@ async function loadVerifiedNews() {
     }
 }
 
-// ----------------------
-// Load Trending News
-// ----------------------
+// Load trending news
 function loadTrendingNews() {
     const trendingHtml = sampleTrending.map(item => `
         <div class="news-card">
@@ -73,9 +67,7 @@ function loadTrendingNews() {
     trendingContainer.innerHTML = trendingHtml;
 }
 
-// ----------------------
 // Initialize
-// ----------------------
 window.addEventListener("DOMContentLoaded", () => {
     loadVerifiedNews();
     loadTrendingNews();
