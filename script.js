@@ -1,74 +1,53 @@
-///////////////////////////////
-// AIPune Feed - Verified News with GNews API + Trending
-///////////////////////////////
-
-const newsContainer = document.querySelector("#news-container");
-const trendingContainer = document.querySelector("#trending-container");
-
-// Fallback news
-const fallbackNews = [
-    { title: "Pune Weather Today", url: "#", publishedAt: new Date(), description: "Sunny skies and warm temperatures in Pune today." },
-    { title: "Traffic Update", url: "#", publishedAt: new Date(), description: "Heavy traffic on FC Road and JM Road, commuters advised to take alternate routes." },
-    { title: "Local Event", url: "#", publishedAt: new Date(), description: "Art exhibition opens at Pune Central Park from today." }
-];
-
-// Sample trending topics
-const sampleTrending = [
-    { title: "New Cafe Opens in Pune", url: "#" },
-    { title: "Traffic Diversion on FC Road", url: "#" },
-    { title: "Local Startup Raises Funding", url: "#" }
-];
-
-// Load Verified News from GNews
 async function loadVerifiedNews() {
-    newsContainer.innerHTML = `<p>Loading latest news...</p>`;
+  const container = document.getElementById("verified-news");
 
-    const apiKey = "ed32aa16493784eaf9102ccf02d40243"; // <-- your GNews API key
-    const apiUrl = `https://gnews.io/api/v4/search?q=Pune&lang=en&country=in&max=5&token=${apiKey}`;
+  if (!container) return;
 
-    try {
-        const response = await fetch(apiUrl);
-        if (!response.ok) throw new Error("GNews API fetch failed");
+  container.innerHTML = "Loading latest Pune news...";
 
-        const data = await response.json();
+  try {
+    const response = await fetch("https://e0d54977-8468-453a-83b5-0ce70b37e321-00-28n59oqee5h74.worf.replit.dev/verified-news");
 
-        if (!data.articles || data.articles.length === 0) throw new Error("No articles found");
+    const data = await response.json();
 
-        const newsHtml = data.articles.map(article => `
-            <div class="news-card">
-                <h3><a href="${article.url}" target="_blank">${article.title}</a></h3>
-                <p>${article.publishedAt ? new Date(article.publishedAt).toLocaleString() : ""}</p>
-                <p>${article.description ? article.description.slice(0, 120) + "..." : ""}</p>
-            </div>
-        `).join("");
+    container.innerHTML = "";
 
-        newsContainer.innerHTML = newsHtml;
-
-    } catch (error) {
-        console.warn("GNews API failed, using fallback news:", error);
-        const fallbackHtml = fallbackNews.map(article => `
-            <div class="news-card">
-                <h3><a href="${article.url}" target="_blank">${article.title}</a></h3>
-                <p>${article.publishedAt.toLocaleString()}</p>
-                <p>${article.description}</p>
-            </div>
-        `).join("");
-        newsContainer.innerHTML = fallbackHtml;
+    if (!data.articles || data.articles.length === 0) {
+      container.innerHTML = "No news available right now.";
+      return;
     }
+
+    data.articles.forEach(article => {
+      const card = document.createElement("div");
+      card.className = "news-card";
+
+      const title = document.createElement("h3");
+      title.textContent = article.title;
+
+      const source = document.createElement("p");
+      source.textContent = "Source: " + article.source.name;
+
+      const date = document.createElement("p");
+      const d = new Date(article.publishedAt);
+      date.textContent = "Published: " + d.toLocaleString();
+
+      const link = document.createElement("a");
+      link.href = article.url;
+      link.textContent = "Read Full Article";
+      link.target = "_blank";
+
+      card.appendChild(title);
+      card.appendChild(source);
+      card.appendChild(date);
+      card.appendChild(link);
+
+      container.appendChild(card);
+    });
+
+  } catch (error) {
+    console.error(error);
+    container.innerHTML = "Failed to load news.";
+  }
 }
 
-// Load trending news
-function loadTrendingNews() {
-    const trendingHtml = sampleTrending.map(item => `
-        <div class="news-card">
-            <h3><a href="${item.url}" target="_blank">${item.title}</a></h3>
-        </div>
-    `).join("");
-    trendingContainer.innerHTML = trendingHtml;
-}
-
-// Initialize
-window.addEventListener("DOMContentLoaded", () => {
-    loadVerifiedNews();
-    loadTrendingNews();
-});
+document.addEventListener("DOMContentLoaded", loadVerifiedNews);
