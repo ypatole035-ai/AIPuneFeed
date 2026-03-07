@@ -59,6 +59,7 @@ text-decoration:underline;
 </header><div id="verified-news">
 Loading latest Pune news...
 </div><script>
+
 async function loadNews(){
 
 const container=document.getElementById("verified-news");
@@ -69,29 +70,32 @@ const response=await fetch("https://pune-news-fetch--DeVen35.replit.app/verified
 
 const data=await response.json();
 
+/* Support both API formats */
+const articles = data.articles || data.news || [];
+
 container.innerHTML="";
 
-if(!data.articles || data.articles.length===0){
+if(articles.length===0){
 container.innerHTML="No news available right now.";
 return;
 }
 
-data.articles.forEach(article=>{
+articles.forEach(article=>{
 
 const card=document.createElement("div");
 card.className="news-card";
 
 const title=document.createElement("h3");
-title.textContent=article.title;
+title.textContent=article.title || "No title";
 
 const source=document.createElement("p");
-source.textContent="Source: "+article.source.name;
+source.textContent="Source: "+(article.source?.name || "Unknown");
 
 const date=document.createElement("p");
-date.textContent="Published: "+new Date(article.publishedAt).toLocaleString();
+date.textContent="Published: "+(article.publishedAt ? new Date(article.publishedAt).toLocaleString() : "Unknown");
 
 const link=document.createElement("a");
-link.href=article.url;
+link.href=article.url || "#";
 link.target="_blank";
 link.textContent="Read Full Article";
 
@@ -107,12 +111,16 @@ container.appendChild(card);
 }
 
 catch(error){
+
 console.error(error);
+
 container.innerHTML="Failed to load news.";
+
 }
 
 }
 
 document.addEventListener("DOMContentLoaded",loadNews);
+
 </script></body>
 </html>
